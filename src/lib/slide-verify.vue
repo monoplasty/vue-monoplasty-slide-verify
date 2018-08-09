@@ -143,8 +143,8 @@
             },
             // 随机生成img src
             getRandomImg() {
-                // return 'https://picsum.photos/300/150/?image=' + this.getRandomNumberByRange(0, 1084);
-                return require('../assets/img.jpg')
+                return 'https://picsum.photos/300/150/?image=' + this.getRandomNumberByRange(0, 1084);
+                // return require('../assets/img.jpg')
             },
             getRandomNumberByRange(start, end) {
                 return Math.round(Math.random() * (end - start) + start)
@@ -234,112 +234,128 @@
         }
     }
 </script>
-<style lang="scss" scoped>
+<style scoped>
     .slide-verify {
         position: relative;
         width: 310px;
-        &-block {
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-        &-refresh-icon {
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 34px;
-            height: 34px;
-            cursor: pointer;
-            background: url('../assets/icon_light.png') 0 -437px;
-            background-size: 34px 471px;
-        }
-        &-slider {
-            position: relative;
-            text-align: center;
-            width: 310px;
-            height: 40px;
-            line-height: 40px;
-            margin-top: 15px;
-            background: #f7f9fa;
-            color: #45494c;
-            border: 1px solid #e4e7eb;
-            &-mask {
-                position: absolute;
-                left: 0;
-                top: 0;
-                height: 40px;
-                border: 0 solid #1991FA;
-                background: #D1E9FE;
-                &-item {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 40px;
-                    height: 40px;
-                    background: #fff;
-                    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
-                    cursor: pointer;
-                    transition: background .2s linear;
-                    &:hover {
-                        background: #1991FA;
-                    }
-                    &:hover &-icon {
-                        background-position: 0 -13px;
-                    }
-                    &-icon {
-                        position: absolute;
-                        top: 15px;
-                        left: 13px;
-                        width: 14px;
-                        height: 12px;
-                        background: url('../assets/icon_light.png') 0 -26px;
-                        background-size: 34px 471px;
-                    }
-                }
-            }
-        } // slider
-        .container-active .slide-verify-slider-mask-item {
-            height: 38px;
-            top: -1px;
-            border: 1px solid #1991FA;
-        }
-        .container-active .slide-verify-slider-mask {
-            height: 38px;
-            border-width: 1px;
-        }
-        .container-success .slide-verify-slider-mask-item {
-            height: 38px;
-            top: -1px;
-            border: 1px solid #52CCBA;
-            background-color: #52CCBA !important;
-        }
-        .container-success .slide-verify-slider-mask {
-            height: 38px;
-            border: 1px solid #52CCBA;
-            background-color: #D2F4EF;
-        }
-        .container-success .slide-verify-slider-mask-item-icon {
-            background-position: 0 0 !important;
-        }
-        .container-fail .slide-verify-slider-mask-item {
-            height: 38px;
-            top: -1px;
-            border: 1px solid #f57a7a;
-            background-color: #f57a7a !important;
-        }
-        .container-fail .slide-verify-slider-mask {
-            height: 38px;
-            border: 1px solid #f57a7a;
-            background-color: #fce1e1;
-        }
-        .container-fail .slide-verify-slider-mask-item-icon {
-            top: 14px;
-            background-position: 0 -82px !important;
-        }
-        .container-active .slide-verify-slider-text,
-        .container-success .slide-verify-slider-text,
-        .container-fail .slide-verify-slider-text {
-            display: none;
-        }
+    }
+
+    .slide-verify-block {
+        position: absolute;
+        left: 0;
+        top: 0
+    }
+
+    .slide-verify-refresh-icon {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 34px;
+        height: 34px;
+        cursor: pointer;
+        background: url("../assets/icon_light.png") 0 -437px;
+        background-size: 34px 471px
+    }
+
+    .slide-verify-slider {
+        position: relative;
+        text-align: center;
+        width: 310px;
+        height: 40px;
+        line-height: 40px;
+        margin-top: 15px;
+        background: #f7f9fa;
+        color: #45494c;
+        border: 1px solid #e4e7eb
+    }
+
+    .slide-verify-slider-mask {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 40px;
+        border: 0 solid #1991FA;
+        background: #D1E9FE
+    }
+
+    .slide-verify-slider-mask-item {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 40px;
+        height: 40px;
+        background: #fff;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        transition: background .2s linear
+    }
+
+    .slide-verify-slider-mask-item:hover {
+        background: #1991FA
+    }
+
+    .slide-verify-slider-mask-item:hover .slide-verify-slider-mask-item-icon {
+        background-position: 0 -13px
+    }
+
+    .slide-verify-slider-mask-item-icon {
+        position: absolute;
+        top: 15px;
+        left: 13px;
+        width: 14px;
+        height: 12px;
+        background: url("../assets/icon_light.png") 0 -26px;
+        background-size: 34px 471px
+    }
+    .container-active .slide-verify-slider-mask-item {
+        height: 38px;
+        top: -1px;
+        border: 1px solid #1991FA;
+    }
+
+    .container-active .slide-verify-slider-mask {
+        height: 38px;
+        border-width: 1px;
+    }
+
+    .container-success .slide-verify-slider-mask-item {
+        height: 38px;
+        top: -1px;
+        border: 1px solid #52CCBA;
+        background-color: #52CCBA !important;
+    }
+
+    .container-success .slide-verify-slider-mask {
+        height: 38px;
+        border: 1px solid #52CCBA;
+        background-color: #D2F4EF;
+    }
+
+    .container-success .slide-verify-slider-mask-item-icon {
+        background-position: 0 0 !important;
+    }
+
+    .container-fail .slide-verify-slider-mask-item {
+        height: 38px;
+        top: -1px;
+        border: 1px solid #f57a7a;
+        background-color: #f57a7a !important;
+    }
+
+    .container-fail .slide-verify-slider-mask {
+        height: 38px;
+        border: 1px solid #f57a7a;
+        background-color: #fce1e1;
+    }
+
+    .container-fail .slide-verify-slider-mask-item-icon {
+        top: 14px;
+        background-position: 0 -82px !important;
+    }
+
+    .container-active .slide-verify-slider-text,
+    .container-success .slide-verify-slider-text,
+    .container-fail .slide-verify-slider-text {
+        display: none;
     }
 </style>

@@ -2,11 +2,14 @@ var path = require('path')
 var webpack = require('webpack')
 
 module.exports = {
-  entry: './src/main.js',
+  entry: './src/lib/index.js',
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
-    filename: 'build.js'
+    filename: 'slide-verify.js',
+    library: 'SlideVerify',
+    libraryTarget: 'umd',
+    umdNamedDefine: true
   },
   module: {
     rules: [
@@ -32,10 +35,15 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
-        loader: 'file-loader',
+        use: [
+         { loader: 'url-loader',
         options: {
-          name: '[name].[ext]?[hash]'
-        }
+          limit: '8192',
+          name: 'imgs/[name].[hash].[ext]',
+          publicPath: '../'
+        }}
+        ],
+
       }
     ]
   },
