@@ -28,22 +28,22 @@
     export default {
         name: 'SlideVerify',
         props: {
-            // 滑块边长
+            // block length
             l: {
                 type: Number,
                 default: 42,
             },
-            // 滑块半径
+            // block radius
             r: {
                 type: Number,
                 default: 10,
             },
-            // canvas宽度
+            // canvas width
             w: {
                 type: Number,
                 default: 310,
             },
-            // canvas高度
+            // canvas height
             h: {
                 type: Number,
                 default: 155,
@@ -51,22 +51,22 @@
         },
         data() {
             return {
-                containerActive: false, // 滑块容器的激活类
-                containerSuccess: false, // 滑块容器的成功类
-                containerFail: false, // 滑块容器的失败类
-                sliderText: '向右滑动滑块填充拼图',
+                containerActive: false, // container active class
+                containerSuccess: false, // container success class
+                containerFail: false, // container fail class
+                sliderText: 'Slide filled right',
                 canvasCtx: null,
                 blockCtx: null,
                 block: null,
-                block_x: undefined, // 滑块随机位置坐标
+                block_x: undefined, // container random position
                 block_y: undefined,
-                L: this.l + this.r * 2 + 3, // 滑块实际边长
+                L: this.l + this.r * 2 + 3, // block real lenght
                 img: undefined,
                 originX: undefined,
                 originY: undefined,
                 isMouseDown: false,
                 trail: [],
-                sliderLeft: 0, // 滑块向右移动量
+                sliderLeft: 0, // block right offset
                 sliderMaskWidth: 0, // mask width
             }
         },
@@ -95,7 +95,6 @@
                         r,
                         L
                     } = this
-                    console.log('this object_>', x, y, r, L);
                     let _y = y - r * 2 - 1
                     let ImageData = this.blockCtx.getImageData(x, _y, L, L);
                     this.block.width = L;
@@ -114,7 +113,6 @@
                     l,
                     r
                 } = this;
-                console.log('l, r_>', l, r, x, y);
                 ctx.beginPath()
                 ctx.moveTo(x, y)
                 ctx.arc(x + l / 2, y - r + 2, r, 0.72 * PI, 2.26 * PI)
@@ -168,7 +166,7 @@
                     let blockLeft = (this.w - 40 - 20) / (this.w - 40) * moveX;
                     this.block.style.left = blockLeft + 'px';
 
-                    this.containerActive = true; // 激活类
+                    this.containerActive = true; // add active
                     this.sliderMaskWidth = moveX + 'px';
                     this.trail.push(moveY);
                 });
@@ -176,7 +174,7 @@
                     if (!this.isMouseDown) return false
                     this.isMouseDown = false
                     if (e.clientX === this.originX) return false;
-                    this.containerActive = false; // 去除激活类
+                    this.containerActive = false; // remove active
 
                     const {
                         spliced,
@@ -189,7 +187,7 @@
                             this.$emit('success')
                         } else {
                             this.containerFail = true;
-                            this.sliderText = '再试一次'
+                            this.sliderText = 'try again'
                             this.reset()
                         }
                     } else {
@@ -202,14 +200,14 @@
                 })
             },
             verify() {
-                const arr = this.trail // 拖动时y轴的移动距离
-                const average = arr.reduce(sum) / arr.length // 平均值
-                const deviations = arr.map(x => x - average) // 偏差数组
-                const stddev = Math.sqrt(deviations.map(square).reduce(sum) / arr.length) // 标准差
+                const arr = this.trail // drag y move distance
+                const average = arr.reduce(sum) / arr.length // average
+                const deviations = arr.map(x => x - average) // deviation array
+                const stddev = Math.sqrt(deviations.map(square).reduce(sum) / arr.length) // standard deviation
                 const left = parseInt(this.block.style.left)
                 return {
                     spliced: Math.abs(left - this.block_x) < 10,
-                    TuringTest: average !== stddev, // 只是简单的验证拖动轨迹，相等时一般为0，表示可能非人为操作
+                    TuringTest: average !== stddev, // equal => not person operate
                 }
             },
             reset() {
@@ -219,7 +217,7 @@
                 this.sliderLeft = 0;
                 this.block.style.left = 0;
                 this.sliderMaskWidth = 0;
-                // 画布
+                // canvas
                 let {
                     w,
                     h
@@ -228,7 +226,7 @@
                 this.blockCtx.clearRect(0, 0, w, h)
                 this.block.width = w
 
-                // 生成图片
+                // generate img
                 this.img.src = this.getRandomImg()
             }
         }

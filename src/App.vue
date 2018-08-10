@@ -15,7 +15,7 @@
         },
         methods: {
             onSuccess(){
-                this.msg = '登录成功'
+                this.msg = 'login success'
             },
             onFail(){
                 this.msg = ''
