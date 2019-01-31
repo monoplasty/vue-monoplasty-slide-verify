@@ -7,7 +7,12 @@
         <div class="slide-verify-slider" :class="{'container-active': containerActive, 'container-success': containerSuccess, 'container-fail': containerFail}">
             <div class="slide-verify-slider-mask" :style="{width: sliderMaskWidth}">
                 <!-- slider -->
-                <div @mousedown="sliderDown" class="slide-verify-slider-mask-item" :style="{left: sliderLeft}">
+                <div @mousedown="sliderDown"
+                    @touchstart="touchStartEvent"
+                    @touchmove="touchMoveEvent"
+                    @touchend="touchEndEvent"
+                    class="slide-verify-slider-mask-item"
+                    :style="{left: sliderLeft}">
                     <div class="slide-verify-slider-mask-item-icon"></div>
                 </div>
             </div>
@@ -156,6 +161,11 @@
                 this.originY = event.clientY;
                 this.isMouseDown = true;
             },
+            touchStartEvent(e) {
+                this.originX = e.changedTouches[0].pageX;
+                this.originY = e.changedTouches[0].pageY;
+                this.isMouseDown = true;
+            },
             bindEvents() {
                 document.addEventListener('mousemove', (e) => {
                     if (!this.isMouseDown) return false;
@@ -198,6 +208,47 @@
                         }, 1000)
                     }
                 })
+            },
+            touchMoveEvent(e) {
+                if (!this.isMouseDown) return false;
+                const moveX = e.changedTouches[0].pageX - this.originX;
+                const moveY = e.changedTouches[0].pageY - this.originY;
+                if (moveX < 0 || moveX + 38 >= this.w) return false;
+                this.sliderLeft = moveX + 'px';
+                let blockLeft = (this.w - 40 - 20) / (this.w - 40) * moveX;
+                this.block.style.left = blockLeft + 'px';
+
+                this.containerActive = true;
+                this.sliderMaskWidth = moveX + 'px';
+                this.trail.push(moveY);
+            },
+            touchEndEvent(e) {
+                if (!this.isMouseDown) return false
+                this.isMouseDown = false
+                if (e.changedTouches[0].pageX === this.originX) return false;
+                this.containerActive = false;
+
+                const {
+                    spliced,
+                    TuringTest
+                } = this.verify();
+                if (spliced) {
+                    if (TuringTest) {
+                        // succ
+                        this.containerSuccess = true;
+                        this.$emit('success')
+                    } else {
+                        this.containerFail = true;
+                        this.sliderText = 'try again'
+                        this.reset()
+                    }
+                } else {
+                    this.containerFail = true;
+                    this.$emit('fail')
+                    setTimeout(() => {
+                        this.reset()
+                    }, 1000)
+                }
             },
             verify() {
                 const arr = this.trail // drag y move distance

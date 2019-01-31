@@ -87,4 +87,6 @@ export default {
 | refresh | Function | refresh button callback |
 
 
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## Log
+### V1.0.2
+- Mobile terminal touch event support
