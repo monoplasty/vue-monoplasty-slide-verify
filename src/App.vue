@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-      <slide-verify @success="onSuccess" @fail="onFail" @refresh="onRefresh" ></slide-verify>
+      <slide-verify @success="onSuccess" @fail="onFail" @refresh="onRefresh" :slider-text="text"></slide-verify>
       <div>{{msg}}</div>
   </div>
 </template>
@@ -11,6 +11,7 @@
         data(){
             return {
                 msg: '',
+                text: 'hello',
             }
         },
         methods: {

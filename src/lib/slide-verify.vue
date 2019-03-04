@@ -52,14 +52,17 @@
             h: {
                 type: Number,
                 default: 155,
-            }
+            },
+            sliderText: {
+                type: String,
+                default: 'Slide filled right',
+            },
         },
         data() {
             return {
                 containerActive: false, // container active class
                 containerSuccess: false, // container success class
                 containerFail: false, // container fail class
-                sliderText: 'Slide filled right',
                 canvasCtx: null,
                 blockCtx: null,
                 block: null,
