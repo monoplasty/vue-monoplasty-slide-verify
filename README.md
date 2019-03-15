@@ -38,6 +38,7 @@ Vue.use(SlideVerify);
             :r="10"
             :w="310"
             :h="155"
+            slider-text="向右滑动"
             @success="onSuccess"
             @fail="onFail"
             @refresh="onRefresh"
@@ -77,6 +78,7 @@ export default {
 | r | Number | block circle radius |
 | w | Number | canvas width |
 | h | Number | canvas height |
+| sliderText | String | Slide filled right |
 
 ### callBack
 
@@ -90,3 +92,5 @@ export default {
 ## Log
 ### V1.0.2
 - Mobile terminal touch event support
+### V1.0.5
+- add slider text
