@@ -57,6 +57,10 @@
                 type: String,
                 default: 'Slide filled right',
             },
+            imgs: {
+              type: Array,
+              default: [],
+            },
         },
         data() {
             return {
@@ -149,8 +153,11 @@
             },
             // 随机生成img src
             getRandomImg() {
-                return 'https://picsum.photos/300/150/?image=' + this.getRandomNumberByRange(0, 1084);
                 // return require('../assets/img.jpg')
+                const len = this.imgs.length;
+                return len > 0 ?
+                  this.imgs[this.getRandomNumberByRange(0, len)] :
+                  'https://picsum.photos/300/150/?image=' + this.getRandomNumberByRange(0, 1084);
             },
             getRandomNumberByRange(start, end) {
                 return Math.round(Math.random() * (end - start) + start)

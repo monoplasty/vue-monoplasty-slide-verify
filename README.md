@@ -69,7 +69,18 @@ export default {
 ```
 
 ## Document
-
+### 内置方法
+  - 在父组件里如果需要重置，可以在父组件中调用子组件reset() 方法
+  ```html
+  <slide-verify ref="slideblock" ></slide-verify>
+  ```
+  ```javascript
+  this.$refs.slideblock.reset();
+  ```
+  - V1.0.6 版本新增属性`imgs`：
+    - 当`imgs`不传或者传空数组时，图片库默认使用第三方api提供的图片路径。可能加载缓慢；
+    - 当`imgs`传本地路径时，确保图片路径是否正确。建设传cdn上的图片地址。
+    - 详情可参考`APP.vue`上的写法。或[在线查看demo地址](https://monoplasty.github.io/vue-monoplasty-slide-verify/)
 ### argument
 
 | Param | Type | Describe |
@@ -79,6 +90,7 @@ export default {
 | w | Number | canvas width |
 | h | Number | canvas height |
 | sliderText | String | Slide filled right |
+| imgs | Array | picture array |
 
 ### callBack
 
@@ -94,3 +106,5 @@ export default {
 - Mobile terminal touch event support
 ### V1.0.5
 - add slider text
+### V1.0.6
+- add img array

@@ -2,8 +2,8 @@ var path = require('path')
 var webpack = require('webpack')
 
 module.exports = {
-  // entry: './src/lib/index.js',
-  entry: './src/main.js',
+  entry: './src/lib/index.js',
+  // entry: './src/main.js',
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
@@ -41,7 +41,7 @@ module.exports = {
         options: {
           limit: '8192',
           name: 'imgs/[name].[hash].[ext]',
-          publicPath: '../'
+          publicPath: './dist/'
         }}
         ],
 
