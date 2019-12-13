@@ -81,6 +81,7 @@ export default {
     - 当`imgs`不传或者传空数组时，图片库默认使用第三方api提供的图片路径。可能加载缓慢；
     - 当`imgs`传本地路径时，确保图片路径是否正确。建设传cdn上的图片地址。
     - 详情可参考`APP.vue`上的写法。或[在线查看demo地址](https://monoplasty.github.io/vue-monoplasty-slide-verify/)
+  - [gitee镜像地址](https://gitee.com/monoplasty/vue-monoplasty-slide-verify)
 ### argument
 
 | Param | Type | Describe |
@@ -106,5 +107,5 @@ export default {
 - Mobile terminal touch event support
 ### V1.0.5
 - add slider text
-### V1.0.6
+### V1.1.0
 - add img array
