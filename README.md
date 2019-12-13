@@ -77,7 +77,7 @@ export default {
   ```javascript
   this.$refs.slideblock.reset();
   ```
-  - V1.0.6 版本新增属性`imgs`：
+  - V1.1.0 版本新增属性`imgs`：
     - 当`imgs`不传或者传空数组时，图片库默认使用第三方api提供的图片路径。可能加载缓慢；
     - 当`imgs`传本地路径时，确保图片路径是否正确。建设传cdn上的图片地址。
     - 详情可参考`APP.vue`上的写法。或[在线查看demo地址](https://monoplasty.github.io/vue-monoplasty-slide-verify/)
