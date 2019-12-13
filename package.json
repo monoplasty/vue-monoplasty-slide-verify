@@ -14,6 +14,9 @@
     "type": "git",
     "url": "git+https://github.com/monoplasty/vue-monoplasty-slide-verify.git"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "dependencies": {
     "vue": "^2.5.11"
   },
