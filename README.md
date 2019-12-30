@@ -38,6 +38,10 @@ Vue.use(SlideVerify);
             :r="10"
             :w="310"
             :h="155"
+            :pathTemplate="imagePage"
+            :imageType="imageType"
+            :isPrivate="private"
+            :imageNum="imageNum"
             slider-text="向右滑动"
             @success="onSuccess"
             @fail="onFail"
@@ -52,6 +56,10 @@ export default {
         data(){
             return {
                 msg: '',
+                imagePage: '../../static/loginImage/',
+                imageType: 'jpg',
+                imageNum: [200, 300],
+                private: true
             }
         },
         methods: {
@@ -91,7 +99,10 @@ export default {
 | w | Number | canvas width |
 | h | Number | canvas height |
 | sliderText | String | Slide filled right |
-| imgs | Array | picture array |
+| isPrivate | Boolean | is mySelf local image |
+| pathTemplate | String | image basic path  |
+| imageType | String | image type |
+| imageNum | Array | image array Start position, end position|
 
 ### callBack
 
@@ -109,3 +120,5 @@ export default {
 - add slider text
 ### V1.1.0
 - add img array
+### V1.1.1
+- add basic image
