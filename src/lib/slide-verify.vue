@@ -1,7 +1,7 @@
 <template>
     <div class="slide-verify" id="slideVerify" onselectstart="return false;">
         <canvas :width="w" :height="h" ref="canvas" ></canvas>
-        <div @click="refresh" class="slide-verify-refresh-icon"></div>
+        <div v-if="show" @click="refresh" class="slide-verify-refresh-icon"></div>
         <canvas :width="w" :height="h" ref="block"  class="slide-verify-block"></canvas>
         <!-- container -->
         <div class="slide-verify-slider" :class="{'container-active': containerActive, 'container-success': containerSuccess, 'container-fail': containerFail}">
@@ -56,6 +56,14 @@
             sliderText: {
                 type: String,
                 default: 'Slide filled right',
+            },
+            accuracy: {
+              type: Number,
+              default: 5, // 若为 -1 则不进行机器判断
+            },
+            show: {
+              type: Boolean,
+              default: true,
             },
             imgs: {
               type: Array,
@@ -201,14 +209,18 @@
                         TuringTest
                     } = this.verify();
                     if (spliced) {
+                        if(this.accuracy === -1) {
+                            this.containerSuccess = true;
+                            this.$emit('success');
+                            return;
+                        }
                         if (TuringTest) {
                             // succ
                             this.containerSuccess = true;
                             this.$emit('success')
                         } else {
                             this.containerFail = true;
-                            this.sliderText = 'try again'
-                            this.reset()
+                            this.$emit('again')
                         }
                     } else {
                         this.containerFail = true;
@@ -243,14 +255,18 @@
                     TuringTest
                 } = this.verify();
                 if (spliced) {
+                    if(this.accuracy === -1) {
+                        this.containerSuccess = true;
+                        this.$emit('success');
+                        return;
+                    }
                     if (TuringTest) {
                         // succ
                         this.containerSuccess = true;
                         this.$emit('success')
                     } else {
                         this.containerFail = true;
-                        this.sliderText = 'try again'
-                        this.reset()
+                        this.$emit('again')
                     }
                 } else {
                     this.containerFail = true;
@@ -266,8 +282,9 @@
                 const deviations = arr.map(x => x - average) // deviation array
                 const stddev = Math.sqrt(deviations.map(square).reduce(sum) / arr.length) // standard deviation
                 const left = parseInt(this.block.style.left)
+                const accuracy = this.accuracy <= 1 ? 1 : this.accuracy > 10 ? 10 : this.accuracy;
                 return {
-                    spliced: Math.abs(left - this.block_x) < 10,
+                    spliced: Math.abs(left - this.block_x) <= accuracy,
                     TuringTest: average !== stddev, // equal => not person operate
                 }
             },
@@ -288,8 +305,9 @@
                 this.block.width = w
 
                 // generate img
-                this.img.src = this.getRandomImg()
-            }
+                this.img.src = this.getRandomImg();
+                this.$emit('fulfilled')
+            },
         }
     }
 </script>
