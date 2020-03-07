@@ -14,9 +14,6 @@
     "type": "git",
     "url": "git+https://github.com/monoplasty/vue-monoplasty-slide-verify.git"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  },
   "dependencies": {
     "vue": "^2.5.11"
   },
@@ -39,7 +36,7 @@
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
     "babel-preset-stage-3": "^6.24.1",
-    "cross-env": "^5.0.5",
+    "cross-env": "^5.2.1",
     "css-loader": "^0.28.7",
     "file-loader": "^1.1.4",
     "prettier": "^1.12.1",
@@ -47,7 +44,7 @@
     "vue-loader": "^13.0.5",
     "vue-template-compiler": "^2.4.4",
     "webpack": "^3.6.0",
-    "webpack-dev-server": "^3.1.11"
+    "webpack-dev-server": "^2.11.5"
   },
   "engines": {
     "node": ">= 6.0.0",

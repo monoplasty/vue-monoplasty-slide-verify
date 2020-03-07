@@ -67,7 +67,7 @@
             },
             imgs: {
               type: Array,
-              default: [],
+              default: () => [],
             },
         },
         data() {
