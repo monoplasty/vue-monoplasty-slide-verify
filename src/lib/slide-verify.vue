@@ -1,5 +1,7 @@
 <template>
-    <div class="slide-verify" id="slideVerify" onselectstart="return false;">
+    <div class="slide-verify" :style="{width: w + 'px'}" id="slideVerify" onselectstart="return false;">
+        <!-- 图片加载遮蔽罩 -->
+        <div :class="{'slider-verify-loading': loadBlock}"></div>
         <canvas :width="w" :height="h" ref="canvas" ></canvas>
         <div v-if="show" @click="refresh" class="slide-verify-refresh-icon"></div>
         <canvas :width="w" :height="h" ref="block"  class="slide-verify-block"></canvas>
@@ -87,7 +89,9 @@
                 isMouseDown: false,
                 trail: [],
                 sliderLeft: 0, // block right offset
-                sliderMaskWidth: 0, // mask width
+                sliderMaskWidth: 0, // mask width,
+                success: false, // Bug Fixes 修复了验证成功后还能滑动
+                loadBlock: true // Features 图片加载提示，防止图片没加载完就开始验证
             }
         },
         mounted() {
@@ -106,6 +110,8 @@
             },
             initImg() {
                 const img = this.createImg(() => {
+                    // 图片加载完关闭遮蔽罩
+                    this.loadBlock = false;
                     this.drawBlock()
                     this.canvasCtx.drawImage(img, 0, 0, this.w, this.h)
                     this.blockCtx.drawImage(img, 0, 0, this.w, this.h)
@@ -147,7 +153,8 @@
                 ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)'
                 ctx.stroke()
                 ctx[operation]()
-                ctx.globalCompositeOperation = 'overlay'
+                // Bug Fixes 修复了火狐和ie显示问题
+                ctx.globalCompositeOperation = "destination-over"
             },
             createImg(onload) {
                 const img = document.createElement('img');
@@ -175,11 +182,13 @@
                 this.$emit('refresh')
             },
             sliderDown(event) {
+                if (this.success) return;
                 this.originX = event.clientX;
                 this.originY = event.clientY;
                 this.isMouseDown = true;
             },
             touchStartEvent(e) {
+                if (this.success) return;
                 this.originX = e.changedTouches[0].pageX;
                 this.originY = e.changedTouches[0].pageY;
                 this.isMouseDown = true;
@@ -211,12 +220,14 @@
                     if (spliced) {
                         if(this.accuracy === -1) {
                             this.containerSuccess = true;
+                            this.success = true;
                             this.$emit('success');
                             return;
                         }
                         if (TuringTest) {
                             // succ
                             this.containerSuccess = true;
+                            this.success = true;
                             this.$emit('success')
                         } else {
                             this.containerFail = true;
@@ -257,12 +268,14 @@
                 if (spliced) {
                     if(this.accuracy === -1) {
                         this.containerSuccess = true;
+                        this.success = true;
                         this.$emit('success');
                         return;
                     }
                     if (TuringTest) {
                         // succ
                         this.containerSuccess = true;
+                        this.success = true;
                         this.$emit('success')
                     } else {
                         this.containerFail = true;
@@ -289,6 +302,7 @@
                 }
             },
             reset() {
+                this.success = false;
                 this.containerActive = false;
                 this.containerSuccess = false;
                 this.containerFail = false;
@@ -314,7 +328,27 @@
 <style scoped>
     .slide-verify {
         position: relative;
-        width: 310px;
+    }
+
+    /* 图片加载样式 */
+    .slider-verify-loading{
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.9);
+        z-index: 999;
+        animation: loading 1.5s infinite;
+    }
+
+    @keyframes loading {
+        0%{
+            opacity: .7;
+        }
+        100% {
+            opacity: 9;
+        }
     }
 
     .slide-verify-block {
@@ -337,7 +371,7 @@
     .slide-verify-slider {
         position: relative;
         text-align: center;
-        width: 310px;
+        width: 100%;
         height: 40px;
         line-height: 40px;
         margin-top: 15px;
