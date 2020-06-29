@@ -85,7 +85,7 @@ export default {
 
 | Event | Type | Describe | Version |
 | :------: | :------: | :------: | :-----: |
-| success | Function | success callback | |
+| success | Function | success callback | 返回时间参数，单位为毫秒 |
 | fail | Function | fail callback | |
 | refresh | Function | 点击刷新按钮后的回调函数 | |
 | again | Function | 检测到非人为操作滑动时触发的回调函数 | 1.1.1 |
@@ -95,7 +95,12 @@ export default {
 ### 国内镜像地址 [gitee镜像地址](https://gitee.com/monoplasty/vue-monoplasty-slide-verify)
 
 ### 更新记录
-#### V1.1.1 描述
+#### V1.1.3 描述
+ - 解决IE 9 - 10 滑块显示bug，感谢大神 [@Guosugaz](https://github.com/Guosugaz) 修复此bug 🎉 [issue#26](https://github.com/monoplasty/vue-monoplasty-slide-verify/issues/26)  
+ - 修复 滑块成功后依然能滑动bug 
+ - 优化 图片未加载完成之前加载遮罩层
+ - 增加滑动成功后的时间显示。单位毫秒。[issue#24](https://github.com/monoplasty/vue-monoplasty-slide-verify/issues/24)
+#### V1.1.1 描述（此版本有bug,请使用最新版）
 - `accuracy` 精度设置
 > 判断滑块与凹槽位置的误差范围值，默认取值范围为 [1, 10]。若取值不为 -1，则会开启检测非人为操作。人为操作也有可能会触发哦！
 >
@@ -120,7 +125,7 @@ this.$refs.slideblock.reset();
 ## Log
 ### V1.1.2
 1. 修复`imgs`不传时，页面的 warning 问题
-### V1.1.1
+### V1.1.1 （此版本有bug,请使用最新版）
 1. 增加**滑动验证的精度设置**
 2. 增加**滑块刷新成功后的回调函数**
 3. 可配置刷新按钮的显示
@@ -153,9 +158,9 @@ this.$refs.slideblock.reset();
             }
         },
         methods: {
-            onSuccess(){
-                console.log('验证通过');
-                this.msg = 'login success'
+            onSuccess(times){
+                console.log('验证通过，耗时 +' times + '毫秒');
+                this.msg = 'login success, 耗时${(times / 1000).toFixed(1)}s'
             },
             onFail(){
                 console.log('验证不通过');
