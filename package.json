@@ -1,6 +1,6 @@
 {
   "name": "vue-monoplasty-slide-verify",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "vue slide verify",
   "author": "yuqian <monoplasty@aliyun.com>",
   "main": "dist/slide-verify.js",
