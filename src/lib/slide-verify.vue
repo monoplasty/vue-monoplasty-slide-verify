@@ -91,7 +91,8 @@
                 sliderLeft: 0, // block right offset
                 sliderMaskWidth: 0, // mask width,
                 success: false, // Bug Fixes 修复了验证成功后还能滑动
-                loadBlock: true // Features 图片加载提示，防止图片没加载完就开始验证
+                loadBlock: true, // Features 图片加载提示，防止图片没加载完就开始验证
+                timestamp: null,
             }
         },
         mounted() {
@@ -186,12 +187,14 @@
                 this.originX = event.clientX;
                 this.originY = event.clientY;
                 this.isMouseDown = true;
+                this.timestamp = + new Date();
             },
             touchStartEvent(e) {
                 if (this.success) return;
                 this.originX = e.changedTouches[0].pageX;
                 this.originY = e.changedTouches[0].pageY;
                 this.isMouseDown = true;
+                this.timestamp = + new Date();
             },
             bindEvents() {
                 document.addEventListener('mousemove', (e) => {
@@ -212,6 +215,7 @@
                     this.isMouseDown = false
                     if (e.clientX === this.originX) return false;
                     this.containerActive = false; // remove active
+                    this.timestamp = + new Date() - this.timestamp;
 
                     const {
                         spliced,
@@ -221,14 +225,14 @@
                         if(this.accuracy === -1) {
                             this.containerSuccess = true;
                             this.success = true;
-                            this.$emit('success');
+                            this.$emit('success', this.timestamp);
                             return;
                         }
                         if (TuringTest) {
                             // succ
                             this.containerSuccess = true;
                             this.success = true;
-                            this.$emit('success')
+                            this.$emit('success', this.timestamp)
                         } else {
                             this.containerFail = true;
                             this.$emit('again')
@@ -260,6 +264,7 @@
                 this.isMouseDown = false
                 if (e.changedTouches[0].pageX === this.originX) return false;
                 this.containerActive = false;
+                this.timestamp = + new Date() - this.timestamp;
 
                 const {
                     spliced,
@@ -269,14 +274,14 @@
                     if(this.accuracy === -1) {
                         this.containerSuccess = true;
                         this.success = true;
-                        this.$emit('success');
+                        this.$emit('success', this.timestamp);
                         return;
                     }
                     if (TuringTest) {
                         // succ
                         this.containerSuccess = true;
                         this.success = true;
-                        this.$emit('success')
+                        this.$emit('success', this.timestamp)
                     } else {
                         this.containerFail = true;
                         this.$emit('again')

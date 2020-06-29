@@ -31,9 +31,9 @@
             }
         },
         methods: {
-            onSuccess(){
+            onSuccess(times){
                 console.log('验证通过');
-                this.msg = 'login success'
+                this.msg = `login success, 耗时${(times / 1000).toFixed(1)}s`;
             },
             onFail(){
                 console.log('验证不通过');
