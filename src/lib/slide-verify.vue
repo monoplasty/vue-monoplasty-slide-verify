@@ -11,8 +11,8 @@
                 <!-- slider -->
                 <div @mousedown="sliderDown"
                     @touchstart="touchStartEvent"
-                    @touchmove="touchMoveEvent"
-                    @touchend="touchEndEvent"
+                    @touchmove="handleMoveEvent($event, 'touch')"
+                    @touchend="handleMoveEndEvent($event, 'touch')"
                     class="slide-verify-slider-mask-item"
                     :style="{left: sliderLeft}">
                     <div class="slide-verify-slider-mask-item-icon"></div>
@@ -82,7 +82,7 @@
                 block: null,
                 block_x: undefined, // container random position
                 block_y: undefined,
-                L: this.l + this.r * 2 + 3, // block real lenght
+                L: this.l + this.r * 2 + 3, // block real length
                 img: undefined,
                 originX: undefined,
                 originY: undefined,
@@ -172,7 +172,7 @@
                 // return require('../assets/img.jpg')
                 const len = this.imgs.length;
                 return len > 0 ?
-                  this.imgs[this.getRandomNumberByRange(0, len)] :
+                  this.imgs[this.getRandomNumberByRange(0, len - 1)] :
                   'https://picsum.photos/300/150/?image=' + this.getRandomNumberByRange(0, 1084);
             },
             getRandomNumberByRange(start, end) {
@@ -197,102 +197,57 @@
                 this.timestamp = + new Date();
             },
             bindEvents() {
-                document.addEventListener('mousemove', (e) => {
-                    if (!this.isMouseDown) return false;
-                    const moveX = e.clientX - this.originX;
-                    const moveY = e.clientY - this.originY;
-                    if (moveX < 0 || moveX + 38 >= this.w) return false;
-                    this.sliderLeft = moveX + 'px';
-                    let blockLeft = (this.w - 40 - 20) / (this.w - 40) * moveX;
-                    this.block.style.left = blockLeft + 'px';
-
-                    this.containerActive = true; // add active
-                    this.sliderMaskWidth = moveX + 'px';
-                    this.trail.push(moveY);
-                });
-                document.addEventListener('mouseup', (e) => {
-                    if (!this.isMouseDown) return false
-                    this.isMouseDown = false
-                    if (e.clientX === this.originX) return false;
-                    this.containerActive = false; // remove active
-                    this.timestamp = + new Date() - this.timestamp;
-
-                    const {
-                        spliced,
-                        TuringTest
-                    } = this.verify();
-                    if (spliced) {
-                        if(this.accuracy === -1) {
-                            this.containerSuccess = true;
-                            this.success = true;
-                            this.$emit('success', this.timestamp);
-                            return;
-                        }
-                        if (TuringTest) {
-                            // succ
-                            this.containerSuccess = true;
-                            this.success = true;
-                            this.$emit('success', this.timestamp)
-                        } else {
-                            this.containerFail = true;
-                            this.$emit('again')
-                        }
-                    } else {
-                        this.containerFail = true;
-                        this.$emit('fail')
-                        setTimeout(() => {
-                            this.reset()
-                        }, 1000)
-                    }
-                })
+                document.addEventListener('mousemove', this.handleMoveEvent);
+                document.addEventListener('mouseup', this.handleMoveEndEvent);
             },
-            touchMoveEvent(e) {
-                if (!this.isMouseDown) return false;
-                const moveX = e.changedTouches[0].pageX - this.originX;
-                const moveY = e.changedTouches[0].pageY - this.originY;
-                if (moveX < 0 || moveX + 38 >= this.w) return false;
-                this.sliderLeft = moveX + 'px';
-                let blockLeft = (this.w - 40 - 20) / (this.w - 40) * moveX;
-                this.block.style.left = blockLeft + 'px';
+            // 处理函数抽离
+            handleMoveEvent(e, type = 'mouse') {
+              if (!this.isMouseDown) return false;
+              const moveX =  type === 'mouse' ?e.clientX - this.originX : e.changedTouches[0].pageX - this.originX;
+              const moveY = type === 'mouse' ? e.clientY - this.originY : e.changedTouches[0].pageY - this.originY;
+              if (moveX < 0 || moveX + 38 >= this.w) return false;
+              this.sliderLeft = moveX + 'px';
+              let blockLeft = (this.w - 40 - 20) / (this.w - 40) * moveX;
+              this.block.style.left = blockLeft + 'px';
 
-                this.containerActive = true;
-                this.sliderMaskWidth = moveX + 'px';
-                this.trail.push(moveY);
+              this.containerActive = true; // add active
+              this.sliderMaskWidth = moveX + 'px';
+              this.trail.push(moveY);
             },
-            touchEndEvent(e) {
-                if (!this.isMouseDown) return false
-                this.isMouseDown = false
-                if (e.changedTouches[0].pageX === this.originX) return false;
-                this.containerActive = false;
-                this.timestamp = + new Date() - this.timestamp;
+            handleMoveEndEvent(e, type = 'mouse') {
+              if (!this.isMouseDown) return false;
+              this.isMouseDown = false
+              if ((type === 'mouse' && e.clientX === this.originX) || (type === 'touch' && e.changedTouches[0].pageX === this.originX)) return false;
+              this.containerActive = false; // remove active
+              this.timestamp = + new Date() - this.timestamp;
 
-                const {
-                    spliced,
-                    TuringTest
-                } = this.verify();
-                if (spliced) {
-                    if(this.accuracy === -1) {
-                        this.containerSuccess = true;
-                        this.success = true;
-                        this.$emit('success', this.timestamp);
-                        return;
-                    }
-                    if (TuringTest) {
-                        // succ
-                        this.containerSuccess = true;
-                        this.success = true;
-                        this.$emit('success', this.timestamp)
-                    } else {
-                        this.containerFail = true;
-                        this.$emit('again')
-                    }
-                } else {
-                    this.containerFail = true;
-                    this.$emit('fail')
-                    setTimeout(() => {
-                        this.reset()
-                    }, 1000)
-                }
+              const {
+                  spliced,
+                  TuringTest
+              } = this.verify();
+              if (spliced) {
+                  if(this.accuracy === -1) {
+                      this.containerSuccess = true;
+                      this.success = true;
+                      this.$emit('success', this.timestamp);
+                      return;
+                  }
+                  if (TuringTest) {
+                      // succ
+                      this.containerSuccess = true;
+                      this.success = true;
+                      this.$emit('success', this.timestamp)
+                  } else {
+                      this.containerFail = true;
+                      this.$emit('again')
+                  }
+              } else {
+                  this.containerFail = true;
+                  this.$emit('fail')
+                  setTimeout(() => {
+                      this.reset()
+                  }, 1000)
+              }
             },
             verify() {
                 const arr = this.trail // drag y move distance
@@ -327,7 +282,11 @@
                 this.img.src = this.getRandomImg();
                 this.$emit('fulfilled')
             },
-        }
+        },
+        destroyed() {
+          document.removeEventListener('mousemove', this.handleMoveEvent);
+          document.removeEventListener('mouseup', this.handleMoveEndEvent);
+        },
     }
 </script>
 <style scoped>
