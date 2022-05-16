@@ -95,9 +95,12 @@ export default {
 ### 国内镜像地址 [gitee镜像地址](https://gitee.com/monoplasty/vue-monoplasty-slide-verify)
 
 ### 更新记录
+#### V1.1.4 描述
+- 修复传入图片数组取随机数报错问题。@zh-ti [gitee issue](https://gitee.com/monoplasty/vue-monoplasty-slide-verify/issues/I4O2TA)
+- 优化组件销毁时，对全局事件的移除问题。
 #### V1.1.3 描述
- - 解决IE 9 - 10 滑块显示bug，感谢大神 [@Guosugaz](https://github.com/Guosugaz) 修复此bug 🎉 [issue#26](https://github.com/monoplasty/vue-monoplasty-slide-verify/issues/26)  
- - 修复 滑块成功后依然能滑动bug 
+ - 解决IE 9 - 10 滑块显示bug，感谢大神 [@Guosugaz](https://github.com/Guosugaz) 修复此bug 🎉 [issue#26](https://github.com/monoplasty/vue-monoplasty-slide-verify/issues/26)
+ - 修复 滑块成功后依然能滑动bug
  - 优化 图片未加载完成之前加载遮罩层
  - 增加滑动成功后的时间显示。单位毫秒。[issue#24](https://github.com/monoplasty/vue-monoplasty-slide-verify/issues/24)
 #### V1.1.1 描述（此版本有bug,请使用最新版）
