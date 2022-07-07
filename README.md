@@ -95,6 +95,9 @@ export default {
 ### 国内镜像地址 [gitee镜像地址](https://gitee.com/monoplasty/vue-monoplasty-slide-verify)
 
 ### 更新记录
+### V1.1.5
+- 针对滑动事件增加节流操作。
+- 提高性能。
 #### V1.1.4 描述
 - 修复传入图片数组取随机数报错问题。@zh-ti [gitee issue](https://gitee.com/monoplasty/vue-monoplasty-slide-verify/issues/I4O2TA)
 - 优化组件销毁时，对全局事件的移除问题。
