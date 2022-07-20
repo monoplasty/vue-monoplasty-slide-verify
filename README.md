@@ -96,7 +96,7 @@ export default {
 
 ### 更新记录
 ### V1.1.5
-- 针对滑动事件增加节流操作。
+- 针对滑动事件增加节流操作, 默认节流时长为50。无法自定义时长。
 - 提高性能。
 #### V1.1.4 描述
 - 修复传入图片数组取随机数报错问题。@zh-ti [gitee issue](https://gitee.com/monoplasty/vue-monoplasty-slide-verify/issues/I4O2TA)

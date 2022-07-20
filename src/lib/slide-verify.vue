@@ -89,11 +89,6 @@ export default {
     imgs: {
       type: Array,
       default: () => []
-    },
-    interval: {
-      // 节流时长间隔
-      type: Number,
-      default: 150
     }
   },
   data() {
@@ -242,7 +237,7 @@ export default {
       this.containerActive = true; // add active
       this.sliderMaskWidth = moveX + "px";
       this.trail.push(moveY);
-    }, this.interval),
+    }),
     handleMoveEndEvent(e, type = "mouse") {
       if (!this.isMouseDown) return false;
       this.isMouseDown = false;
@@ -317,7 +312,11 @@ export default {
   }
 };
 
-function throttle(fn, interval, options = { leading: true, trailing: true }) {
+function throttle(
+  fn,
+  interval = 50,
+  options = { leading: true, trailing: true }
+) {
   const { leading, trailing, resultCallback } = options;
   let lastTime = 0;
   let timer = null;
