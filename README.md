@@ -95,7 +95,7 @@ export default {
 ### 国内镜像地址 [gitee镜像地址](https://gitee.com/monoplasty/vue-monoplasty-slide-verify)
 
 ### 更新记录
-### V1.1.5
+### V1.2.0
 - 针对滑动事件增加节流操作, 默认节流时长为50。无法自定义时长。
 - 提高性能。
 #### V1.1.4 描述
