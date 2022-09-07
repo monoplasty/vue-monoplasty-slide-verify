@@ -190,8 +190,9 @@ export default {
       const len = this.imgs.length;
       return len > 0
         ? this.imgs[this.getRandomNumberByRange(0, len - 1)]
-        : "https://picsum.photos/300/150/?image=" +
-            this.getRandomNumberByRange(0, 1084);
+        : // "https://bing.ioliu.cn/v1/rand?w=300&h=150";
+          "https://source.unsplash.com/300x150/?book,library";
+      // "https://api.dujin.org/pic/fengjing";
     },
     getRandomNumberByRange(start, end) {
       return Math.round(Math.random() * (end - start) + start);
