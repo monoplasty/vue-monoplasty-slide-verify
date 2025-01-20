@@ -94,6 +94,14 @@ export default {
 ## Document
 ### 国内镜像地址 [gitee镜像地址](https://gitee.com/monoplasty/vue-monoplasty-slide-verify)
 
+
+### 学习交流
+
+最近发现有的朋友给我发私信，但我没来的及回复，有兴趣的朋友可以加入社群交流学习：[669653069](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=GiifeVV_d3tA9sENmnilLUIIpr9JjQZ2&authKey=aQltsCgUSq0%2F5Yw8NpF%2B2Iz52DPpYFH2hJmH4I%2Fle1S%2FgnGl68QMiV6NGpxkXrcY&noverify=0&group_code=669653069)
+
+<img src="./src/assets/669653069.jpg" alt="官方社区" width="160" />
+
+
 ### 更新记录
 ### V1.2.0
 - 针对滑动事件增加节流操作, 默认节流时长为50。无法自定义时长。
